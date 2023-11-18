@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Signature Verification</title>
+    <style>
+        .b1 {
+            font-family: Arial, sans-serif;
+            background-color: #15202b;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            max-width: 400px;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .h1h {
+            text-align: center;
+            margin-top: 0;
+            margin-bottom: 30px;
+            color: #ffffff;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: bold;
+            color: #333333;
+        }
+
+        input[type="file"] {
+            display: none;
+        }
+
+        .custom-file-upload {
+            display: block;
+            margin-top: 5px;
+            margin-bottom: 10px;
+            padding: 10px;
+            border: 1px solid #dddddd;
+            border-radius: 4px;
+            background-color: #ffffff;
+            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+            font-size: 16px;
+            width: 100%;
+            cursor: pointer;
+            color: #333333;
+        }
+
+        .file-info {
+            margin-bottom: 10px;
+            color: #333333;
+        }
+
+        .file-info span {
+            margin-right: 10px;
+        }
+
+        .preview {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .preview img {
+            max-width: 100%;
+            max-height: 200px;
+        }
+
+        .remove-file {
+            color: #ff0000;
+            cursor: pointer;
+        }
+
+        .remove-file::after {
+            content: 'X';
+        }
+
+        input[type="submit"] {
+            background-color: #1e598e;
+            color: #ffffff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #204d74;
+        }
+
+        input[type="submit"]:active {
+            background-color: #183657;
+        }
+    </style>
+    <script>
+        function handleFileSelect(event) {
+            var file = event.target.files[0];
+            var preview = document.querySelector('.preview');
+            var fileInfo = document.querySelector('.file-info');
+            var reader = new FileReader();
+
+            reader.onload = function(event) {
+                var img = document.createElement('img');
+                img.src = event.target.result;
+                preview.innerHTML = '';
+                preview.appendChild(img);
+            };
+
+            if (file) {
+                reader.readAsDataURL(file);
+                fileInfo.innerHTML = '<span>File: ' + file.name + '</span><span class="remove-file" onclick="removeFile()"></span>';
+            } else {
+                fileInfo.innerHTML = '';
+                preview.innerHTML = '';
+            }
+        }
+
+        function removeFile() {
+            var fileInput = document.getElementById('image');
+            fileInput.value = '';
+            var fileInfo = document.querySelector('.file-info');
+            var preview = document.querySelector('.preview');
+            fileInfo.innerHTML = '';
+            preview.innerHTML = '';
+        }
+    </script>
+</head>
+<body>
+    <h1><center> Machine Learning-Based Signature Verification</center></h1>
+    <div class = "b1">
+       <div class="container">
+        <h1 style="color: #15202b;">Signature Verification</h1>
+        <form action="/verify" method="post" enctype="multipart/form-data">
+            <label for="image">Input image:</label>
+            <label class="custom-file-upload">
+                <input type="file" name="image" id="image" accept=".jpg, .jpeg, .png" onchange="handleFileSelect(event)" required>
+                Select Image
+            </label>
+            <div class="file-info"></div>
+            <div class="preview"></div>
+            <input type="submit" value="Verify">
+        </form>
+    </div>
+    </div>
+</body>
+</html>
